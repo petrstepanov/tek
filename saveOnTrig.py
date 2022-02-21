@@ -7,7 +7,7 @@ about how to use the program.  Built using
 python 2.7 (http://www.python.org/)
 pyvisa 1.3 (http://pypi.python.org/pypi/PyVISA/1.3)
 """
-import SoTmain
+import soTmain
 
 print "Welcome to the save on Trigger Data Logging Application"
 print "This program is compatible with TDS2000B/C, TDS3000B/C" 
