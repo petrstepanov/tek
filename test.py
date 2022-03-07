@@ -1,7 +1,7 @@
 # Install packages on RHEL 8.5 with: pip3.9 install ...
 # because nivisa requires python version > ...
 import pyvisa
-import matplotlib
+import matplotlib.pyplot as plt
 import numpy
 # import usb
 
@@ -33,4 +33,5 @@ print(inst.query('*IDN?'))
 # TEST: acquire waveform from the scope and plot
 values = inst.query_ascii_values('CURV?', container=numpy.array)
 print(values)
-plot = matplotlib.pyplot.plot(values)
+plt.plot(values)
+plt.show()
