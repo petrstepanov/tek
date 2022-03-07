@@ -7,30 +7,28 @@ import numpy
 # Docs here: https://pyvisa.readthedocs.io/en/latest/index.html
 pyvisa.log_to_screen()
 
+# NOT WORKING
 # Create Resource Manager object with default IVI backend (no arguments)
-#rm = pyvisa.ResourceManager()
-#rm.list_resources()
-#print(rm.list_resources('?*'))
-#print(rm.list_resources())
+# rm = pyvisa.ResourceManager()
+# rm.list_resources()
+# print(rm.list_resources('?*'))
+# print(rm.list_resources())
 
-#ipaddr = 'TCPIP:192.168.100.36::INSTR'
-#inst = rm.open_resource(ipaddr)
-
+# WORKS
 # Create Resource Manager with Py backend
 rmpy=pyvisa.ResourceManager('@py')
-rmpy.list_resources()
 
-# print(rmpy.list_resources('TCP?*'))
+# NOT WORKING
+# USB issue: Found a device whose serial number cannot be read
+# Potential solution: https://www.google.com/search?client=firefox-b-1-e&q=pyvisa+Found+a+device+whose+serial+number+cannot+be+read
 # print(rmpy.list_resources())
 
-# Issue: Found a device whose serial number cannot be read
-# Solution: https://www.google.com/search?client=firefox-b-1-e&q=pyvisa+Found+a+device+whose+serial+number+cannot+be+read
-
+# WORKS
+# Ethernet approach: https://github.com/pyvisa/pyvisa-py/issues/261
 ipaddr = 'TCPIP::192.168.100.36::INSTR'
 inst = rmpy.open_resource(ipaddr)
-
 print(inst.query('*IDN?'))
 
+# TEST: acquire waveform from the scope and plot
 values = inst.query_ascii_values('CURV?', container=numpy.array)
-
 plot = matplotlib.pyplot.plot(values)
