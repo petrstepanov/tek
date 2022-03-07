@@ -33,4 +33,6 @@ print(inst.query('*IDN?'))
 
 values = inst.query_ascii_values('CURV?', container=numpy.array)
 
+print(values)
+
 plot = matplotlib.pyplot.plot(values)
