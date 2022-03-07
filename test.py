@@ -1,19 +1,36 @@
 # Import PyVISA library
 import pyvisa
+#import usb
+import matplotlib
+import numpy
+
+# Docs here: https://pyvisa.readthedocs.io/en/latest/index.html
 pyvisa.log_to_screen()
 
 # Create Resource Manager object with default IVI backend (no arguments)
-rm = pyvisa.ResourceManager()
-
-# List available resources
-# 2022-02-21 17:16:30,623 - pyvisa - DEBUG - viFindRsrc(4097, '?*::INSTR', '<ViObject object at 0x7f1c4f78db40>', 'c_uint(0)', <ctypes.c_char_Array_256 object at 0x7f1c4f6e8d40>) -> -1073807343
-# ()
-print(rm.list_resources())
-
-
+#rm = pyvisa.ResourceManager()
 #rm.list_resources()
-#('ASRL1::INSTR', 'ASRL2::INSTR', 'GPIB0::12::INSTR')
+#print(rm.list_resources('?*'))
+#print(rm.list_resources())
 
-#inst = rm.open_resource('GPIB0::12::INSTR')
+#ipaddr = 'TCPIP:192.168.100.36::INSTR'
+#inst = rm.open_resource(ipaddr)
 
-#print(inst.query("*IDN?"))
+# Create Resource Manager with Py backend
+rmpy=pyvisa.ResourceManager('@py')
+rmpy.list_resources()
+
+# print(rmpy.list_resources('TCP?*'))
+# print(rmpy.list_resources())
+
+# Issue: Found a device whose serial number cannot be read
+# Solution: https://www.google.com/search?client=firefox-b-1-e&q=pyvisa+Found+a+device+whose+serial+number+cannot+be+read
+
+ipaddr = 'TCPIP::192.168.100.36::INSTR'
+inst = rmpy.open_resource(ipaddr)
+
+print(inst.query('*IDN?'))
+
+values = inst.query_ascii_values('CURV?', container=numpy.array)
+
+plot = matplotlib.pyplot.plot(values)

@@ -1,3 +1,4 @@
+"""
 Tested with DPO3054, MSO2024, TDS2024B, TDS3054B,
 TDS2024C, DPO4032
 Used USB and TCPIP Connections for the DPO scopes
