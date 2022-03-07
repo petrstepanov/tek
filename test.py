@@ -1,5 +1,6 @@
 # Install packages on RHEL 8.5 with: pip3.9 install ...
 # because nivisa requires python version > ...
+# echo 'set path = ($path /usr/local/bin $HOME/bin .)' >> ~/.login
 import pyvisa
 import matplotlib.pyplot as plt
 import numpy
