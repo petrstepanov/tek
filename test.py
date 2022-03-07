@@ -31,8 +31,30 @@ ipaddr = 'TCPIP::192.168.100.36::INSTR'
 inst = rmpy.open_resource(ipaddr)
 print(inst.query('*IDN?'))
 
+# Configure the instrument
+# https://pyvisa.readthedocs.io/en/latest/introduction/communication.html#getting-the-instrument-configuration-right
+inst.read_termination = '\n'
+inst.write_termination = '\n'
+inst.query('*IDN?')
+
+# TEST: read raw data - success
+inst.write('CURV?')
+data = inst.read_raw()
+
+# TEST: what's on the display at the moment?
+inst.query("*IDN?")
+
+
+
 # TEST: acquire waveform from the scope and plot
-values = inst.query_ascii_values('CURV?', container=numpy.array)
-print(values)
-plt.plot(values)
-plt.show()
+# values0 = inst.query_ascii_values('CURV?')
+# print(values0)
+
+# values1 = inst.query_ascii_values('CURV?', container=numpy.array)
+# print(values1)
+
+# values2 = inst.query_ascii_values('CURV?', container=numpy.array, converter='x')
+# print(values2)
+
+#plt.plot(values)
+#plt.show()
