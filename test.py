@@ -29,20 +29,28 @@ rmpy=pyvisa.ResourceManager('@py')
 # Ethernet approach: https://github.com/pyvisa/pyvisa-py/issues/261
 ipaddr = 'TCPIP::192.168.100.36::INSTR'
 inst = rmpy.open_resource(ipaddr)
-print(inst.query('*IDN?'))
 
 # Configure the instrument
 # https://pyvisa.readthedocs.io/en/latest/introduction/communication.html#getting-the-instrument-configuration-right
-inst.read_termination = '\n'
+# p.2-5 Programmers manual: 
+# | This oscilloscope does not support ASCII LF only message termination. The
+# | oscilloscope always terminates outgoing messages with LF and EOI.
+inst.read_termination = '\r\n'
 inst.write_termination = '\n'
+
+# Query the device with the following message: '\*IDN?'. 
+# Which is the standard GPIB message for “what are you?” or – in some cases – “what’s on your display at the moment?”.
+# https://pyvisa.readthedocs.io/en/latest/introduction/communication.html
 inst.query('*IDN?')
 
+# inst.query('*IDN?')
+
 # TEST: read raw data - success
-inst.write('CURV?')
-data = inst.read_raw()
+# inst.write('CURV?')
+# data = inst.read_raw()
 
 # TEST: what's on the display at the moment?
-inst.query("*IDN?")
+# inst.query("*IDN?")
 
 
 
