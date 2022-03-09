@@ -110,10 +110,25 @@ with rm.open_resource(addr) as instr:
     
     # Start infinite loop
     #i=0
-    #while i < 1:
+    scope = instr
+    while i < 3:
     #instr.write('TRIGger:STATE?')
     #triggerState = instr.read()
     #print(triggerState)
+        waiting = 1
+        looptime = datetime.now()
+        
+        # wait here until trigger received, forced trigger occurs or time ends
+        while (waiting == 1):
+            waiting = int(scope.ask("ACQ:STATE?"))
+            #capture the trigger time
+            if waiting == 0:
+                triggertime = datetime.now()
+            if looptime > end_time:
+                if scope.query("TRIGGER:STATE?") == 'READY':
+                    print("No trigger event for finale capture")
+                    break
+
 
 '''
 # PyVisa wait for trigger: https://pyvisa.readthedocs.io/en/latest/introduction/example.html
