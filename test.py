@@ -138,7 +138,7 @@ with rm.open_resource(addr) as instr:
 
             # Save waveforms to jumpdrive or network drive mounted to the scope
             instr.write('SAVe:WAVEform:FILEFormat SPREADSheet')
-            instr.write('SAVe:WAVEform ALL, "E:/' + fileName + '.csv"')
+            instr.write('SAVe:WAVEform ALL, "I:/Data/' + fileName + '.csv"')
             
             # Save plots to NAS
             savePlotToNas(fileName)
