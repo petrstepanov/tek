@@ -115,14 +115,16 @@ with rm.open_resource(addr) as instr:
     #triggerState = instr.read()
     #print(triggerState)
 
-
-    instr.assert_trigger()
-    instr.wait_for_srq()
-
+'''
+# PyVisa wait for trigger: https://pyvisa.readthedocs.io/en/latest/introduction/example.html
+# ERROR: builtins.AttributeError: 'TCPIPInstrument' object has no attribute 'wait_for_srq'
+instr.assert_trigger()
+instr.wait_for_srq()
+'''
 
 '''
-# Trigger Event Handling (NOT WORK - instr.install_handler -> builtins.NotImplementedError)
-# https://pyvisa.readthedocs.io/en/latest/introduction/event_handling.html
+# Trigger event handling: https://pyvisa.readthedocs.io/en/latest/introduction/event_handling.html
+# ERROR at instr.install_handler(): builtins.NotImplementedError
 instr.called = False
 
 # Type of event we want to be notified about
