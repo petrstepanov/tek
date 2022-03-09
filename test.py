@@ -11,7 +11,12 @@ def writeFileHeader(inst):
     print('Model,')
 
 #def readDecode(scope, string):
-#    # https://pyvisa.readthedocs.io/en/latest/introduction/communication.html
+#    # htt
+
+def handle_event(resource, event, user_handle):
+    resource.called = True
+    print(f"Handled event {event.event_type} on {resource}")
+    
 #    # Query '?' tests both reading and writing    
 #    instr.write(string)
 #    # We need to decode string in Python3: https://stackabuse.com/convert-bytes-to-string-in-python/
@@ -24,7 +29,7 @@ def writeFileHeader(inst):
 
 # Docs here: https://pyvisa.readthedocs.io/en/latest/index.html
 pyvisa.log_to_screen()
-
+print("PyVisa version", pyvisa.__version__)
 # Create Resource Manager
 
 # Default IVI backend (FAILS)
@@ -43,6 +48,8 @@ addr = 'TCPIP::192.168.100.36::INSTR'
 
 # Open oscilloscope
 with rm.open_resource(addr) as instr:
+
+    
     # Configure the instrument
     # https://pyvisa.readthedocs.io/en/latest/introduction/communication.html#getting-the-instrument-configuration-right
     # p.2-5 Programmers manual: 
@@ -77,7 +84,7 @@ with rm.open_resource(addr) as instr:
     plt.grid(True)
     plt.xlabel('Channel')
     plt.ylabel('Amplitude, mV')
-    fileName="/cuanas/Data/" + now.strftime("%Y-%m-%d-%H:%M:%S")
+    fileName = now.strftime("%Y-%m-%d-%H-%M-%S")
     
     # save CSV file
     values = []
@@ -95,9 +102,10 @@ with rm.open_resource(addr) as instr:
         plt.plot(values)
     
     # TODO: use SAVe:WAVEform instead - it creates header automatically
-    instr.write('SAVe:WAVEform ALL, "E:/' + fileName + '.csv')
+    instr.write('SAVe:WAVEform:FILEFormat SPREADSheet')
+    instr.write('SAVe:WAVEform ALL, "E:/' + fileName + '.csv"')
     
-    plt.savefig(fileName + '.png')
+    plt.savefig('/cuanas/Data/' + fileName + '.png')
     # plt.show()
     
     # Start infinite loop
@@ -111,22 +119,28 @@ with rm.open_resource(addr) as instr:
     
     # Trigger Event Handling
     # https://pyvisa.readthedocs.io/en/latest/introduction/event_handling.html
-    event_type = pyvisa.constants.EventType.sservice_request
+    instr.called = False
+
+    # Type of event we want to be notified about
+    event_type = pyvisa.constants.EventType.service_request
     # Mechanism by which we want to be notified
     event_mech = pyvisa.constants.EventMechanism.queue
 
-    instr.enable_event(event_type, event_mech)
+    wrapped = instr.wrap_handler(handle_event)
+
+    user_handle = instr.install_handler(event_type, wrapped, 42)
+    instr.enable_event(event_type, event_mech, None)
 
     # Instrument specific code to enable service request
     # (for example on operation complete OPC)
     instr.write("*SRE 1")
     instr.write("INIT")
 
-    # Wait for the event to occur
-    response = instr.wait_on_event(event_type, 1000)
-    assert response.event.event_type == event_type
-    assert response.timed_out == False
-    instr.disable_event(event_type, event_mech)    
+    while not instr.called:
+        sleep(10)
+
+    instr.disable_event(event_type, event_mech)
+    instr.uninstall_handler(event_type, wrapped, user_handle)
 
 
 rm.close()
