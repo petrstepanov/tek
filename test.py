@@ -111,36 +111,40 @@ with rm.open_resource(addr) as instr:
     # Start infinite loop
     #i=0
     #while i < 1:
-        #instr.assert_trigger()
-        #instr.wait_on_event
-        #instr.write('TRIGger:STATE?')
-        #triggerState = instr.read()
-        #print(triggerState)
-    
-    # Trigger Event Handling
-    # https://pyvisa.readthedocs.io/en/latest/introduction/event_handling.html
-    instr.called = False
+    #instr.write('TRIGger:STATE?')
+    #triggerState = instr.read()
+    #print(triggerState)
 
-    # Type of event we want to be notified about
-    event_type = pyvisa.constants.EventType.service_request
-    # Mechanism by which we want to be notified
-    event_mech = pyvisa.constants.EventMechanism.queue
 
-    wrapped = instr.wrap_handler(handle_event)
+    instr.assert_trigger()
+    instr.wait_for_srq()
 
-    user_handle = instr.install_handler(event_type, wrapped, 42)
-    instr.enable_event(event_type, event_mech, None)
 
-    # Instrument specific code to enable service request
-    # (for example on operation complete OPC)
-    instr.write("*SRE 1")
-    instr.write("INIT")
+'''
+# Trigger Event Handling (NOT WORK - instr.install_handler -> builtins.NotImplementedError)
+# https://pyvisa.readthedocs.io/en/latest/introduction/event_handling.html
+instr.called = False
 
-    while not instr.called:
-        sleep(10)
+# Type of event we want to be notified about
+event_type = pyvisa.constants.EventType.service_request
+# Mechanism by which we want to be notified
+event_mech = pyvisa.constants.EventMechanism.queue
 
-    instr.disable_event(event_type, event_mech)
-    instr.uninstall_handler(event_type, wrapped, user_handle)
+wrapped = instr.wrap_handler(handle_event)
 
+user_handle = instr.install_handler(event_type, wrapped, 42)
+instr.enable_event(event_type, event_mech, None)
+
+# Instrument specific code to enable service request
+# (for example on operation complete OPC)
+instr.write("*SRE 1")
+instr.write("INIT")
+
+while not instr.called:
+    sleep(10)
+
+instr.disable_event(event_type, event_mech)
+instr.uninstall_handler(event_type, wrapped, user_handle)
+'''
 
 rm.close()
