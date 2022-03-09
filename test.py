@@ -40,9 +40,10 @@ def getAcquisitionState(instr):
     return int(acquisitionState)
 
 # Function builds filename from current date
-def buildFileName():
-    now = datetime.now()    # remember current time
-    fileName = now.strftime("%Y-%m-%d-%H-%M-%S")
+def buildFileName(counter):
+    fileName = "DataLog_" + str(counter)
+    #now = datetime.now()    # remember current time
+    # fileName = now.strftime("%Y-%m-%d-%H-%M-%S")
     return fileName
 
 # Function saves CH1 and CH2 as plots to NAS
@@ -84,7 +85,7 @@ print("PyVisa version", pyvisa.__version__)
 rm=pyvisa.ResourceManager('@py')
 print(rm.list_resources())
 
-# Establish a conection with the device
+# Establish time.sleep(0.25)a conection with the device
 # USB (FAILS)
 # addr = 'USB0::1689::1110::C013681::0::INSTR'Returns the instrument identification data.
 
@@ -120,6 +121,7 @@ with rm.open_resource(addr) as instr:
     
     # Capture trigger events (infinite loop)
     i = 0
+    fileCounter = 0
     while i < 1:
         # Obtain acquisition state (not needed?)
         # acqState = getAcquisitionState(instr)       
@@ -132,18 +134,25 @@ with rm.open_resource(addr) as instr:
 
         instr.write('TRIGger:STATE?')
         triggerState = instr.read()
-        if triggerState == "TRIG":
-            fileName = buildFileName()
+        
+        instr.write('BUSY?')
+        isBusy = instr.read()
+        # print("isBusy: " + isBusy)
+        
+        if triggerState == "TRIG" and isBusy == "0":
+            fileName = buildFileName(fileCounter)
             print("Trigger state is " + triggerState + ". Saving waveform '" + fileName + "'")
 
             # Save waveforms to jumpdrive or network drive mounted to the scope
             instr.write('SAVe:WAVEform:FILEFormat SPREADSheet')
-            instr.write('SAVe:WAVEform ALL, "I:/Data/' + fileName + '.csv"')
+            instr.write('SAVe:WAVEform ALL, "I:/Data/Temp/' + fileName + '.csv"')
             
             # Save plots to NAS
-            savePlotToNas(fileName)
+            # savePlotToNas(fileName)
+            
+            fileCounter = fileCounter + 1
 
-        # Sleep 250 ms
+        # Sleep 500 ms
         time.sleep(0.25)
 
 '''
