@@ -16,4 +16,4 @@ https://www.ni.com/en-us/support/downloads/drivers/download.ni-visa.html
 * [MDO4034C Programming Manual](https://download.tek.com/manual/MDO4000-B-C-MSO-DPO4000B-and-MDO3000-Oscilloscope-Programmer-Manual-077051007.pdf) is utilized to implement the desired logic. Script to be used is `test.py`.
 
 ## Resources
-A [few useful examples](https://forum.tek.com/viewtopic.php?f=580&t=133570) was referred by the [Tektronix developers](mailto:steve.guerrero@tektronix.com). However examples are for different oscilloscope models and written in Python v.2 (not v.3).
+A [few useful examples](https://forum.tek.com/viewtopic.php?f=580&t=133570) was referred by a Tektronix developer [Steve Guerrero](mailto:steve.guerrero@tektronix.com). However examples are for different oscilloscope models and written in Python v.2 (not v.3).
