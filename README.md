@@ -11,4 +11,9 @@ Desired logic can be implemented by means of controlling the oscilloscope by a h
 https://www.ni.com/en-us/support/downloads/drivers/download.ni-visa.html
 * Install a Python IDE (e.g. Wing) for debugging capabilities.
 * Establish a connection between the host computer and the scope by means of the [PyVisa library](https://pyvisa.readthedocs.io/en/latest/). 
-* Utilize MDO4034C Programming Manual to implement the desired logic.
+* Set up SAMBA service on the NAS. Enable SMB1 protocol in the NAS settings (required by the scope).
+* In the oscilloscope settings mount shared SAMBA NAS drive as letter I:
+* [MDO4034C Programming Manual](https://download.tek.com/manual/MDO4000-B-C-MSO-DPO4000B-and-MDO3000-Oscilloscope-Programmer-Manual-077051007.pdf) is utilized to implement the desired logic. Script to be used is `test.py`.
+
+## Resources
+A [few useful examples](https://forum.tek.com/viewtopic.php?f=580&t=133570) was referred by the [Tektronix developers](mailto:steve.guerrero@tektronix.com). However examples are for different oscilloscope models and written in Python v.2 (not v.3).
