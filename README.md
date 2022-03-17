@@ -5,7 +5,8 @@ Tektronix MDO4034C oscilloscope can only save waveforms in manual mode. By manua
 Desired logic can be implemented by means of controlling the oscilloscope by a host computer. Due to certain security issues, Windows operating systems are not favored by the JLab IT department. Therefore Brad installed Red Hat Enterprise Linux (RHEL) v8.5.
 
 ## Prerequisites
-* Configure a linux-based PC with internal LAN. Two network cards are required to access the internet and intranet.
+* Configure a linux-based PC with internal local area network (LAN). Two network cards are required to access the internet and intranet.
+* Plug-in computer, oscillscope and the network attached storage (NAS) into the switch on the LAN.
 * Install the National Instruments [(NI) VISA software](https://www.ni.com/en-us/support/downloads/drivers/download.ni-visa.html) drivers.
 https://www.ni.com/en-us/support/downloads/drivers/download.ni-visa.html
 * Install a Python IDE (e.g. Wing) for debugging capabilities.
