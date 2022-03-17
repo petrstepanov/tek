@@ -1,5 +1,7 @@
 # Triggered Waveform Data Acquisiton (DAQ) Script for MDO4034C
 
+<img width="100%" src="https://github.com/petrstepanov/tek/blob/main/resources/connectivity-diagram.png?raw=true" alt="Tektronix MDO4034C connectivity diagram with NAS"/>
+
 Tektronix MDO4034C oscilloscope can only save waveforms in manual mode. By manually pressing a button on the front panel or in the web interface. The goal of this project is to allow waveform acquisition upon the trigger event of the oscilloscope.
 
 Desired logic can be implemented by means of controlling the oscilloscope by a host computer. Due to certain security issues, Windows operating systems are not favored by the JLab IT department. Therefore Brad installed Red Hat Enterprise Linux (RHEL) v8.5.
