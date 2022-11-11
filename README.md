@@ -24,14 +24,15 @@ https://www.ni.com/en-us/support/downloads/drivers/download.ni-visa.html
 
 ## Running the Script
 
-Make sure `git` package is installed on the computer. Ensure the `python --version` command outputs version `Python 3.XX.X`. Otherwise install and use the `python3` package.
+1. Login to the acquisition computer (in the NPS clean room) with your JLab credentials.
 
-Check out the repository and run the code:
+2. Make sure `git` package is installed on the computer. Ensure the `python --version` command outputs version `Python 3.XX.X`. Otherwise install and use the `python3` package.
+
+3. Check out the repository and run the code:
 
 ```
 cd && clone https://github.com/petrstepanov/tek
-cd ~/tek
-python ./test.py
+python ~/tek/test.py
 ```
 
 By default, waveforms are saved into the `I:/Data/Temp/` folder on the oscilloscope. Therefore it is important to ensure that the Network Attached Storage (NAS) is mounted on the scope as `I:` drive and `Data/Temp/` folder exists on the NAS.
