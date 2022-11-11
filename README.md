@@ -1,6 +1,7 @@
 # Triggered Waveform Data Acquisiton (DAQ) Script for MDO4034C
 
-<img width="100%" src="https://github.com/petrstepanov/tek/blob/main/resources/connectivity-diagram.png?raw=true" alt="Tektronix MDO4034C connectivity diagram with NAS"/>
+![Tektronix MDO4034C connectivity diagram with NAS](https://github.com/petrstepanov/tek/blob/main/resources/network-setup.png?raw=true "Device connectivity diagram")
+<center><i>Device connectivity diagram.</i></center>
 
 Tektronix MDO4034C oscilloscope can only save waveforms in manual mode. By manually pressing a button on the front panel or in the web interface. The goal of this project is to allow waveform acquisition upon the trigger event of the oscilloscope.
 
@@ -17,7 +18,24 @@ https://www.ni.com/en-us/support/downloads/drivers/download.ni-visa.html
 * In the oscilloscope settings mount shared SAMBA NAS drive as letter I:
 * [MDO4034C Programming Manual](https://download.tek.com/manual/MDO4000-B-C-MSO-DPO4000B-and-MDO3000-Oscilloscope-Programmer-Manual-077051007.pdf) is utilized to implement the desired logic. Script to be used is `test.py`.
 
-![image](https://user-images.githubusercontent.com/859814/158896994-de2d29a5-23ff-4621-a7c7-865a815927cd.png)
+
+![Acquisition script algorithm](https://github.com/petrstepanov/tek/blob/main/resources/script-logic.png?raw=true "Device connectivity diagram")
+<center><i>Acquisition script algorithm.</i></center>
+
+## Running the Script
+
+Make sure `git` package is installed on the computer. Ensure the `python --version` command outputs version `Python 3.XX.X`. Otherwise install and use the `python3` package.
+
+Check out the repository and run the code:
+
+```
+cd && clone https://github.com/petrstepanov/tek
+cd ~/tek
+python ./test.py
+```
+
+By default, waveforms are saved into the `I:/Data/Temp/` folder on the oscilloscope. Therefore it is important to ensure that the Network Attached Storage (NAS) is mounted on the scope as `I:` drive and `Data/Temp/` folder exists on the NAS.
 
 ## Resources
-A [few useful examples](https://forum.tek.com/viewtopic.php?f=580&t=133570) was referred by a Tektronix developer [Steve Guerrero](mailto:steve.guerrero@tektronix.com). However examples are for different oscilloscope models and written in Python v.2 (not v.3).
+* A [few useful examples](https://forum.tek.com/viewtopic.php?f=580&t=133570) was referred by a Tektronix developer [Steve Guerrero](mailto:steve.guerrero@tektronix.com). However examples are for different oscilloscope models and written in Python v.2 (not v.3).
+* Repository contains a Wing IDE project file which can be used for development purposes.
