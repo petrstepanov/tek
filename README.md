@@ -1,4 +1,8 @@
-# Triggered Waveform Data Acquisiton (DAQ) Script for MDO4034C
+# Triggered Waveform Data Acquisiton (DAQ) Script for Tektronix MDO4034C Oscilliscope
+
+Current project goal is to facilitate particle identification by means of application of Machine Learning algorithms.
+
+
 
 <img width="100%" src="https://github.com/petrstepanov/tek/blob/main/resources/connectivity-diagram.png?raw=true" alt="Tektronix MDO4034C connectivity diagram with NAS"/>
 
