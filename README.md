@@ -35,7 +35,7 @@ https://www.ni.com/en-us/support/downloads/drivers/download.ni-visa.html
 3. Check out the repository and run the code:
 
 ```
-cd && clone https://github.com/petrstepanov/tek
+cd && git clone https://github.com/petrstepanov/tek
 python ~/tek/test.py
 ```
 
